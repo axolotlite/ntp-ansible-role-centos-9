@@ -1,0 +1,20 @@
+---
+- name: Install NTP package
+  yum:
+    name: ntp
+    state: present
+- name: Configure NTP
+  lineinfile:
+    path: /etc/ntp.conf
+    regexp: '^server'
+    line: 'server ntp.example.com'
+  notify: restart ntpd
+- name: Start NTP service
+  service:
+    name: ntpd
+    state: started
+    enabled: yes
+- name: Set Timezone
+  timezone:
+    name: America/New_York
+    state: present
