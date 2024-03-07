@@ -1,20 +1,18 @@
 ---
 - name: Install NTP package
-  yum:
-    name: ntp
-    state: present
+  yum:
+    name: chrony
+    state: present
 - name: Configure NTP
-  lineinfile:
-    path: /etc/ntp.conf
-    regexp: '^server'
-    line: 'server ntp.example.com'
-  notify: restart ntpd
+  lineinfile:
+   path: /etc/chrony.conf
+   regexp: '^server'
+   line: 'server 2.centos.pool.ntp.org iburst'
 - name: Start NTP service
-  service:
-    name: ntpd
-    state: started
-    enabled: yes
+  service:
+   name: chronyd
+   state: started
+   enabled: yes
 - name: Set Timezone
-  timezone:
-    name: America/New_York
-    state: present
+  community.general.timezone:
+   name: Africa/Cairo
